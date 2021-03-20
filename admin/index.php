@@ -109,6 +109,27 @@ if(!isset($_GET['page'])){
     $data['users']   = $query->fetch_all(MYSQLI_ASSOC);
     include 'users/index.php';
   }
+  else if($_GET['page'] == 'profil'){
+    $id              = $_SESSION['loged']['user']['id'];
+    if(isset($_POST['submit']))
+    {
+      $nama            = $_POST['nama'];
+      $username        = $_POST['username'];
+      $query           = $mysqli->query("UPDATE user SET nama='$nama', username='$username' WHERE id=$id");
+      if($query){
+        header('location:logout.php');
+      }
+    }
+    else if(isset($_POST['submit-password']))
+    {
+      $password        = password_hash($_POST['password'], PASSWORD_DEFAULT);
+      $query           = $mysqli->query("UPDATE user SET password='$password' WHERE id=$id");
+      if($query){
+        header('location:logout.php');
+      }
+    }
+    include 'profil/index.php';
+  }
   else{
 
   }
